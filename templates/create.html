@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{%block title%}{{title}}{%endblock%}
+
+{% block page_content %}
+<body>
+    <div class="container">
+        <h1>{{title}}</h1>
+        <form method="post">
+            <input type="text" name="title" id="title" class="form-control"
+                      placeholder="Введите наименование товара"><br>
+            <textarea name="description" id="description" class="form-control"
+                      placeholder="Введите описание товара"></textarea><br>
+            <textarea name="price" id="price" class="form-control"
+                      placeholder="Введите цену"></textarea><br>
+            <input type="submit" class="w-100 btn btn-lg btn-outline-primary" value="Сохранить">
+        </form>
+    </div>
+</body>
+{%endblock%}
