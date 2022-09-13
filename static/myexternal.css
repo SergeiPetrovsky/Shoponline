@@ -1,7 +1,10 @@
 <style type="text/css" >
-    body.mybackground
-    {
-    background="https://www.firestock.ru/download/s/1ip8b3qqixgy9no/Fotolia_46795878_Subscription_XXL.jpg"
-    }
 
-    h1{ color : red     }
+    .leftimg {
+        float:left; /* Выравнивание по левому краю */
+        margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
+        width : 150px
+         }
+
+    h1{color : blue }
+</style

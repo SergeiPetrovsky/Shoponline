@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, redirect
 from flask_sqlalchemy import SQLAlchemy
-from datetime import datetime
+from datetime import datetime, date
 from sqlalchemy import desc
 
 app = Flask(__name__)
@@ -15,7 +15,13 @@ class Item(db.Model):
     description = db.Column(db.String(300))
     price = db.Column(db.Integer, nullable=False)
     date = db.Column(db.DateTime, default=datetime.utcnow())
+    url = db.Column(db.String(300))
     is_active = db.Column(db.Boolean, default=True)
+    num_in_stock = db.Column(db.Integer, nullable=False)  # количество на складе
+    num_of_purch = db.Column(db.Integer)   #  число продаж
+
+    # def __repr__(self):
+    #     return 'Запись'
 
 @app.route('/')
 @app.route('/home')
@@ -33,8 +39,11 @@ def create():
             title = request.form['title']
             description = request.form['description']
             price = int(request.form['price'])
+            url = request.form['url']
 
-            item = Item(title=title, description=description, price=price)
+            num_in_stock = request.form['num_in_stock']
+
+            item = Item(title=title, description=description, price=price, url=url, num_in_stock=num_in_stock)
             try:
                 db.session.add(item)
                 db.session.commit()
@@ -49,6 +58,21 @@ def create():
 def goods():
     goods = Item.query.order_by(desc(Item.date)).all()
     return render_template('goods.html', title='Товары на складе', goods=goods)
+
+
+@app.route('/stock')
+def stock():
+    return render_template('stock.html', title='Акции')
+
+@app.route('/popular')
+def popular():
+    return render_template('popular.html', title='Выбор покупателей')
+
+@app.route('/new')
+def new():
+    today = date.today()
+    goods = Item.query.all()
+    return render_template('new.html', title='Новинки', today=today, goods=goods)
 
 #________________________________________________________________________________________________________
 if __name__ == '__main__':

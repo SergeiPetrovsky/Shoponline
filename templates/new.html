@@ -12,10 +12,14 @@
         }
     </style>
 </head>
+
 <body>
     <div class="container">
         <h1>{{title}}</h1>
+        {{today}}
+
         {%for item in goods%}
+            {%if item.date.date() == today %}
                 <div class="col">
                   <div class="card mb-4 rounded-3 shadow-sm">
                       <div class="card-header py-3">
@@ -26,14 +30,14 @@
                            <img class="leftimg" src={{item.url}} alt="нет фотографии" >
                            <li>{{item.description}}</li>
                            <li>Цена :&nbsp{{item.price}}</li>
-                           <li>Дата поступления:&nbsp{{item.date.date()}}</li>
-                           <li> Количество на складе:&nbsp{{item.num_in_stock}}&nbsp шт</li>
-
+                           <li>Дата поступления:</li>
+                           <li>{{item.date.date()}}</li>
                         </ul>
                         <a  href="#" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
                       </div>
                   </div>
               </div>
+            {%endif%}
         {%endfor%}
 
     </div>
