@@ -19,6 +19,7 @@ class Item(db.Model):
     is_active = db.Column(db.Boolean, default=True)
     num_in_stock = db.Column(db.Integer, nullable=False)  # количество на складе
     num_of_purch = db.Column(db.Integer)   #  число продаж
+    discount = db.Column(db.Integer)    # Скидка
 
     # def __repr__(self):
     #     return 'Запись'
@@ -40,10 +41,12 @@ def create():
             description = request.form['description']
             price = int(request.form['price'])
             url = request.form['url']
+            discount = request.form['discount']
 
             num_in_stock = request.form['num_in_stock']
 
-            item = Item(title=title, description=description, price=price, url=url, num_in_stock=num_in_stock)
+            item = Item(title=title, description=description, price=price, url=url,
+                        num_in_stock=num_in_stock, discount=discount)
             try:
                 db.session.add(item)
                 db.session.commit()
@@ -62,7 +65,8 @@ def goods():
 
 @app.route('/stock')
 def stock():
-    return render_template('stock.html', title='Акции')
+    goods = Item.query.all()
+    return render_template('stock.html', title='Акции', goods=goods)
 
 @app.route('/popular')
 def popular():
@@ -73,6 +77,7 @@ def new():
     today = date.today()
     goods = Item.query.all()
     return render_template('new.html', title='Новинки', today=today, goods=goods)
+
 
 #________________________________________________________________________________________________________
 if __name__ == '__main__':

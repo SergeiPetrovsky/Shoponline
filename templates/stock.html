@@ -2,9 +2,41 @@
 {%block title%}{{title}}{%endblock%}
 
 {% block page_content %}
+<head>
+    <style type="text/css">
+        .leftimg {
+            float:left; /* Выравнивание по левому краю */
+             margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
+             width : 150px
+        }
+    </style>
+</head>
+
 <body>
     <div class="container">
-        <h1>Акции</h1>
+        <h1>{{title}}</h1>
+
+        {%for item in goods%}
+            {%if item.discount > 0 %}
+                <div class="col">
+                  <div class="card mb-4 rounded-3 shadow-sm">
+                      <div class="card-header py-3">
+                        <h4 class="my-0 fw-normal">{{item.title}}</h4>
+                      </div>
+                      <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                           <img class="leftimg" src={{item.url}} alt="нет фотографии" >
+                           <li>{{item.description}}</li>
+                           <li>Цена :&nbsp{{item.price}}&nbspBYN</li>
+                           <li>Цена со скидкой&nbsp{{item.discount}}% : </li>
+                           <li>{{item.price * (100 -item.discount) / 100}}&nbspBYN</li>
+                        </ul>
+                        <a  href="#" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
+                      </div>
+                  </div>
+              </div>
+            {%endif%}
+        {%endfor%}
 
     </div>
 </body>
