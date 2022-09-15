@@ -2,15 +2,6 @@
 {%block title%}{{title}}{%endblock%}
 
 {% block page_content %}
-<head>
-    <style type="text/css">
-        .leftimg {
-            float:left; /* Выравнивание по левому краю */
-             margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
-             width : 150px
-        }
-    </style>
-</head>
 
 <body>
     <div class="container">
@@ -31,7 +22,7 @@
                            <li>Цена со скидкой&nbsp{{item.discount}}% : </li>
                            <li>{{item.price * (100 -item.discount) / 100}}&nbspBYN</li>
                         </ul>
-                        <a  href="#" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
+                        <a  href="/buy-discount/{{item.id}}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
                       </div>
                   </div>
               </div>

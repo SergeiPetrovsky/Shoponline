@@ -3,6 +3,8 @@ from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date
 from sqlalchemy import desc
 
+from cloudipsp import Api, Checkout
+
 app = Flask(__name__)
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///shop.db'
@@ -25,7 +27,6 @@ class Item(db.Model):
     #     return 'Запись'
 
 @app.route('/')
-@app.route('/home')
 def index():
     return render_template('index.html', title='Главная')
 
@@ -78,7 +79,34 @@ def new():
     goods = Item.query.all()
     return render_template('new.html', title='Новинки', today=today, goods=goods)
 
+@app.route('/buy/<int:id>')
+def buy(id):
+    item = Item.query.get(id)
 
+    api = Api(merchant_id=1396424,
+              secret_key='test')
+    checkout = Checkout(api=api)
+    data = {
+        "currency": "BYN",
+        "amount": item.price * 100
+    }
+    url = checkout.url(data).get('checkout_url')
+    return redirect(url)
+
+
+@app.route('/buy-discount/<int:id>')
+def buy_discount(id):
+    item = Item.query.get(id)
+
+    api = Api(merchant_id=1396424,
+              secret_key='test')
+    checkout = Checkout(api=api)
+    data = {
+        "currency": "BYN",
+        "amount": item.price * (100 - item.discount)
+    }
+    url = checkout.url(data).get('checkout_url')
+    return redirect(url)
 #________________________________________________________________________________________________________
 if __name__ == '__main__':
     app.run(debug=True)

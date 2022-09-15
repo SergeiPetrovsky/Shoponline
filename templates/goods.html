@@ -2,16 +2,7 @@
 {%block title%}{{title}}{%endblock%}
 
 {% block page_content %}
-<head>
-    <style type="text/css">
-        .leftimg {
-            float:left; /* Выравнивание по левому краю */
-             margin: 7px 7px 7px 0; /* Отступы вокруг картинки */
-             width : 150px
 
-        }
-    </style>
-</head>
 <body>
     <div class="container">
         <h1>{{title}}</h1>
@@ -25,12 +16,12 @@
                         <ul class="list-unstyled mt-3 mb-4">
                            <img class="leftimg" src={{item.url}} alt="нет фотографии" >
                            <li>{{item.description}}</li>
-                           <li>Цена :&nbsp{{item.price}}</li>
+                           <li>Цена :&nbsp{{item.price}}&nbspBYN</li>
                            <li>Дата поступления:&nbsp{{item.date.date()}}</li>
                            <li> Количество на складе:&nbsp{{item.num_in_stock}}&nbsp шт</li>
 
                         </ul>
-                        <a  href="#" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
+                        <a  href="/buy/{{item.id}}" class="w-100 btn btn-lg btn-outline-primary">Купить</a>
                       </div>
                   </div>
               </div>
