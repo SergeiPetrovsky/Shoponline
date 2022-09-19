@@ -79,19 +79,46 @@ def new():
     goods = Item.query.all()
     return render_template('new.html', title='Новинки', today=today, goods=goods)
 
-@app.route('/buy/<int:id>')
+# @app.route('/buy/<int:id>')
+# def buy(id):
+#     item = Item.query.get(id)
+#
+#     api = Api(merchant_id=1396424,
+#               secret_key='test')
+#     checkout = Checkout(api=api)
+#     data = {
+#         "currency": "BYN",
+#         "amount": item.price * 100
+#     }
+#     url = checkout.url(data).get('checkout_url')
+#     return redirect(url)
+
+def payment_imitation(e_mail, card_num, cvv2, sum):   # ИМИТАЦИЯ ОПЛАТЫ ТОВАРА
+    if e_mail and card_num and cvv2 and sum:
+        return True
+    else:
+        return False
+
+@app.route('/buy/<int:id>',methods=['POST','GET'] )
 def buy(id):
     item = Item.query.get(id)
+    if request.method == "POST":
+            Email = request.form['Email']
+            card_num = request.form['card_num']
+            price = int(request.form['price'])
+            cvv2 = request.form['cvv2']
 
-    api = Api(merchant_id=1396424,
-              secret_key='test')
-    checkout = Checkout(api=api)
-    data = {
-        "currency": "BYN",
-        "amount": item.price * 100
-    }
-    url = checkout.url(data).get('checkout_url')
-    return redirect(url)
+            if payment_imitation(Email, card_num, cvv2, price):
+                item.num_in_stock = item.num_in_stock - 1
+                db.session.commit()
+
+                return render_template('message.html', item=item)
+            else:
+                return 'Оплата не прошла'
+
+    else:
+        return render_template('my_payment.html', title='Оплата товара', item=item)
+
 
 
 @app.route('/buy-discount/<int:id>')

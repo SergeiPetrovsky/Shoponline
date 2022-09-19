@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{%block title%}{{title}}{%endblock%}
+
+{% block page_content %}
+
+<body>
+    <div class="container">
+        <h1>Покупка совершена</h1>
+
+                <div class="col">
+                  <div class="card mb-4 rounded-3 shadow-sm">
+                      <div class="card-header py-3">
+                          <h3>Вы успешно приобрели</h3>
+                        <h4 class="my-0 fw-normal">{{item.title}}</h4>
+                      </div>
+                      <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4">
+                           <img class="leftimg" src={{item.url}} alt="нет фотографии" >
+                           <li>{{item.description}}</li> <br>
+                            <li>Информация о сроках доставки будет выслана на указзанный e_mail</li>
+
+
+                        </ul>
+                        <a  href="/" class="w-100 btn btn-lg btn-outline-primary">Продолжить покупки</a>
+                      </div>
+                  </div>
+              </div>
+
+
+    </div>
+</body>
+{%endblock%}
